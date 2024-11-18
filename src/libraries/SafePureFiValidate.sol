@@ -13,13 +13,11 @@ library SafePureFiValidate {
     error MissingToken1DataError();
     error ExpectedSecondPackageTypeError();
 
-
-//    function validateDataLength(bytes calldata data) internal pure {
-//        if (data.length < 181) {
-//            InsufficientDataLengthError.selector.revertWith();
-//        }
-//    }
-
+    //    function validateDataLength(bytes calldata data) internal pure {
+    //        if (data.length < 181) {
+    //            InsufficientDataLengthError.selector.revertWith();
+    //        }
+    //    }
 
     function getPackageType(bytes calldata data) internal pure returns (uint8 packageType) {
         assembly {
@@ -27,13 +25,11 @@ library SafePureFiValidate {
         }
     }
 
-
     function getSession(bytes calldata data) internal pure returns (uint256 session) {
         assembly {
             session := calldataload(add(data.offset, 32))
         }
     }
-
 
     function getRule(bytes calldata data) internal pure returns (uint256 rule) {
         assembly {
@@ -41,20 +37,17 @@ library SafePureFiValidate {
         }
     }
 
-
     function getFrom(bytes calldata data) internal pure returns (address from) {
         assembly {
             from := calldataload(add(data.offset, 96))
         }
     }
 
-
     function getTo(bytes calldata data) internal pure returns (address to) {
         assembly {
             to := calldataload(add(data.offset, 128))
         }
     }
-
 
     function getIntermediary(bytes calldata data) internal pure returns (address intermediary) {
         if ((getPackageType(data) & 128) != 128) {
@@ -65,7 +58,6 @@ library SafePureFiValidate {
             intermediary := calldataload(add(data.offset, 160))
         }
     }
-
 
     function getPayee(bytes calldata data) internal pure returns (address payee) {
         // можно сделать локальную переменную
@@ -84,9 +76,7 @@ library SafePureFiValidate {
                 payee := calldataload(add(data.offset, 160))
             }
         }
-
     }
-
 
     function getPaymentData(bytes calldata data) internal pure returns (address token, uint256 amount) {
         // Can be replaced with the local variable(2 calls)
@@ -99,7 +89,8 @@ library SafePureFiValidate {
         if ((getPackageType(data) & 128) == 128) {
             assembly {
                 paymentData := calldataload(add(data.offset, 224))
-            }} else {
+            }
+        } else {
             // If Type 64, 96, 112: it dont have intermediary, but have paymentData
             assembly {
                 paymentData := calldataload(add(data.offset, 192))
@@ -108,7 +99,6 @@ library SafePureFiValidate {
 
         (token, amount) = parseTokenData(paymentData);
     }
-
 
     function getTokenData0(bytes calldata data) internal pure returns (address token, uint256 amount) {
         // Can be replaced with the local variable(2 calls)
@@ -158,7 +148,6 @@ library SafePureFiValidate {
         (token, amount) = parseTokenData(paymentData);
     }
 
-
     function getTokenData1(bytes calldata data) internal pure returns (address token, uint256 amount) {
         // Check PackageType
         if ((getPackageType(data) & 16) != 16) {
@@ -204,7 +193,6 @@ library SafePureFiValidate {
         (token, amount) = parseTokenData(paymentData);
     }
 
-
     function parseTokenData(uint256 tokenData) internal pure returns (address token, uint256 amount) {
         assembly {
             token := shr(96, tokenData)
@@ -214,8 +202,7 @@ library SafePureFiValidate {
         }
     }
 
-
-    function getToken0(bytes calldata data) internal pure returns (address token){
+    function getToken0(bytes calldata data) internal pure returns (address token) {
         if (getPackageType(data) != 2) {
             ExpectedSecondPackageTypeError.selector.revertWith();
         }
@@ -224,7 +211,7 @@ library SafePureFiValidate {
         }
     }
 
-    function getToken0Amount(bytes calldata data) internal pure returns (uint256 amount){
+    function getToken0Amount(bytes calldata data) internal pure returns (uint256 amount) {
         if (getPackageType(data) != 2) {
             ExpectedSecondPackageTypeError.selector.revertWith();
         }

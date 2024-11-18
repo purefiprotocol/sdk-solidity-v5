@@ -33,166 +33,59 @@ contract TestPackage is IPackageTypes {
     uint8 public constant PACKAGE_TYPE_224 = 224;
     uint8 public constant PACKAGE_TYPE_240 = 240;
 
-
     function getTestPackageType1() public view returns (PackageType1 memory) {
-        return PackageType1(
-            PACKAGE_TYPE_1,
-            SESSION,
-            RULE,
-            FROM,
-            TO);
+        return PackageType1(PACKAGE_TYPE_1, SESSION, RULE, FROM, TO);
     }
-
 
     function getTestPackageType2() public view returns (PackageType2 memory) {
-        return PackageType2(
-            PACKAGE_TYPE_2,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            TOKEN_0,
-            TOKEN_0_AMOUNT);
+        return PackageType2(PACKAGE_TYPE_2, SESSION, RULE, FROM, TO, TOKEN_0, TOKEN_0_AMOUNT);
     }
-
 
     function getTestPackageType32() public view returns (PackageType32 memory) {
-        return PackageType32(
-            PACKAGE_TYPE_32,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            TOKEN_DATA_0);
+        return PackageType32(PACKAGE_TYPE_32, SESSION, RULE, FROM, TO, TOKEN_DATA_0);
     }
-
 
     function getTestPackageType48() public view returns (PackageType48 memory) {
-        return PackageType48(
-            PACKAGE_TYPE_48,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            TOKEN_DATA_0,
-            TOKEN_DATA_1);
+        return PackageType48(PACKAGE_TYPE_48, SESSION, RULE, FROM, TO, TOKEN_DATA_0, TOKEN_DATA_1);
     }
-
 
     function getTestPackageType64() public view returns (PackageType64 memory) {
-        return PackageType64(
-            PACKAGE_TYPE_64,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            PAYEE,
-            PAYMENT_DATA);
+        return PackageType64(PACKAGE_TYPE_64, SESSION, RULE, FROM, TO, PAYEE, PAYMENT_DATA);
     }
-
 
     function getTestPackageType96() public view returns (PackageType96 memory) {
-        return PackageType96(
-            PACKAGE_TYPE_96,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            PAYEE,
-            PAYMENT_DATA,
-            TOKEN_DATA_0);
+        return PackageType96(PACKAGE_TYPE_96, SESSION, RULE, FROM, TO, PAYEE, PAYMENT_DATA, TOKEN_DATA_0);
     }
-
 
     function getTestPackageType112() public view returns (PackageType112 memory) {
-        return PackageType112(
-            PACKAGE_TYPE_112,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            PAYEE,
-            PAYMENT_DATA,
-            TOKEN_DATA_0,
-            TOKEN_DATA_1);
+        return
+            PackageType112(PACKAGE_TYPE_112, SESSION, RULE, FROM, TO, PAYEE, PAYMENT_DATA, TOKEN_DATA_0, TOKEN_DATA_1);
     }
-
 
     function getTestPackageType128() public view returns (PackageType128 memory) {
-        return PackageType128(
-            PACKAGE_TYPE_128,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            INTERMEDIARY,
-            TOKEN_DATA_0);
+        return PackageType128(PACKAGE_TYPE_128, SESSION, RULE, FROM, TO, INTERMEDIARY, TOKEN_DATA_0);
     }
-
 
     function getTestPackageType160() public view returns (PackageType160 memory) {
-        return PackageType160(
-            PACKAGE_TYPE_160,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            INTERMEDIARY,
-            TOKEN_DATA_0);
+        return PackageType160(PACKAGE_TYPE_160, SESSION, RULE, FROM, TO, INTERMEDIARY, TOKEN_DATA_0);
     }
-
 
     function getTestPackageType176() public view returns (PackageType176 memory) {
-        return PackageType176(
-            PACKAGE_TYPE_176,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            INTERMEDIARY,
-            TOKEN_DATA_0,
-            TOKEN_DATA_1);
+        return PackageType176(PACKAGE_TYPE_176, SESSION, RULE, FROM, TO, INTERMEDIARY, TOKEN_DATA_0, TOKEN_DATA_1);
     }
-
 
     function getTestPackageType192() public view returns (PackageType192 memory) {
-        return PackageType192(
-            PACKAGE_TYPE_192,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            INTERMEDIARY,
-            PAYEE,
-            PAYMENT_DATA);
+        return PackageType192(PACKAGE_TYPE_192, SESSION, RULE, FROM, TO, INTERMEDIARY, PAYEE, PAYMENT_DATA);
     }
-
 
     function getTestPackageType224() public view returns (PackageType224 memory) {
-        return PackageType224(
-            PACKAGE_TYPE_224,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            INTERMEDIARY,
-            PAYEE,
-            PAYMENT_DATA,
-            TOKEN_DATA_0);
+        return
+            PackageType224(PACKAGE_TYPE_224, SESSION, RULE, FROM, TO, INTERMEDIARY, PAYEE, PAYMENT_DATA, TOKEN_DATA_0);
     }
-
 
     function getTestPackageType240() public view returns (PackageType240 memory) {
         return PackageType240(
-            PACKAGE_TYPE_240,
-            SESSION,
-            RULE,
-            FROM,
-            TO,
-            INTERMEDIARY,
-            PAYEE,
-            PAYMENT_DATA,
-            TOKEN_DATA_0,
-            TOKEN_DATA_1);
+            PACKAGE_TYPE_240, SESSION, RULE, FROM, TO, INTERMEDIARY, PAYEE, PAYMENT_DATA, TOKEN_DATA_0, TOKEN_DATA_1
+        );
     }
 }

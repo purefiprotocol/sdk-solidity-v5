@@ -2,7 +2,6 @@
 pragma solidity ^0.8.10;
 
 contract IPackageTypes {
-
     struct PackageType1 {
         uint8 packageType;
         uint256 session;
@@ -20,7 +19,6 @@ contract IPackageTypes {
         address token0;
         uint256 tokenAmount0;
     }
-
 
     struct PackageType32 {
         uint8 packageType;

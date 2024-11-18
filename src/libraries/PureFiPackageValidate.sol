@@ -32,13 +32,11 @@ library PureFiPackageValidate {
 
     error MissingIntermediaryFlagError();
 
-
     function validateDataLength(bytes calldata data) internal pure {
         if (data.length < 181) {
             InsufficientDataLengthError.selector.revertWith();
         }
     }
-
 
     function getPackageType(bytes calldata data) internal pure returns (uint8 packageType) {
         assembly {
@@ -46,13 +44,11 @@ library PureFiPackageValidate {
         }
     }
 
-
     function getSession(bytes calldata data) internal pure returns (uint256 session) {
         assembly {
             session := calldataload(add(data.offset, 32))
         }
     }
-
 
     function getRule(bytes calldata data) internal pure returns (uint256 rule) {
         assembly {
@@ -60,20 +56,17 @@ library PureFiPackageValidate {
         }
     }
 
-
     function getFrom(bytes calldata data) internal pure returns (address from) {
         assembly {
             from := calldataload(add(data.offset, 96))
         }
     }
 
-
     function getTo(bytes calldata data) internal pure returns (address to) {
         assembly {
             to := calldataload(add(data.offset, 128))
         }
     }
-
 
     function getIntermediary(bytes calldata data) internal pure returns (address intermediary) {
         console.log(data.length);
@@ -85,13 +78,11 @@ library PureFiPackageValidate {
         console.log(offset);
     }
 
-
     function getPayee(bytes calldata data) internal pure returns (address payee) {
         assembly {
             payee := calldataload(add(data.offset, 192))
         }
     }
-
 
     function getPaymentData(bytes calldata data) internal pure returns (address token, uint256 amount) {
         uint256 paymentData;
@@ -101,7 +92,6 @@ library PureFiPackageValidate {
         (token, amount) = parseTokenData(paymentData);
     }
 
-
     function getTokenData0(bytes calldata data) internal pure returns (address token, uint256 amount) {
         uint256 paymentData;
         assembly {
@@ -110,7 +100,6 @@ library PureFiPackageValidate {
         (token, amount) = parseTokenData(paymentData);
     }
 
-
     function getTokenData1(bytes calldata data) internal pure returns (address token, uint256 amount) {
         uint256 paymentData;
         assembly {
@@ -118,7 +107,6 @@ library PureFiPackageValidate {
         }
         (token, amount) = parseTokenData(paymentData);
     }
-
 
     function parseTokenData(uint256 tokenData) internal pure returns (address token, uint256 amount) {
         assembly {

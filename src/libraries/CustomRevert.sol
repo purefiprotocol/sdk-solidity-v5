@@ -87,29 +87,29 @@ library CustomRevert {
     ) internal pure {
         bytes4 wrappedErrorSelector = WrappedError.selector;
         assembly ("memory-safe") {
-        // Ensure the size of the revert data is a multiple of 32 bytes
+            // Ensure the size of the revert data is a multiple of 32 bytes
             let encodedDataSize := mul(div(add(returndatasize(), 31), 32), 32)
 
             let fmp := mload(0x40)
 
-        // Encode wrapped error selector, address, function selector, offset, additional context, size, revert reason
+            // Encode wrapped error selector, address, function selector, offset, additional context, size, revert reason
             mstore(fmp, wrappedErrorSelector)
             mstore(add(fmp, 0x04), and(revertingContract, 0xffffffffffffffffffffffffffffffffffffffff))
             mstore(
                 add(fmp, 0x24),
                 and(revertingFunctionSelector, 0xffffffff00000000000000000000000000000000000000000000000000000000)
             )
-        // offset revert reason
+            // offset revert reason
             mstore(add(fmp, 0x44), 0x80)
-        // offset additional context
+            // offset additional context
             mstore(add(fmp, 0x64), add(0xa0, encodedDataSize))
-        // size revert reason
+            // size revert reason
             mstore(add(fmp, 0x84), returndatasize())
-        // revert reason
+            // revert reason
             returndatacopy(add(fmp, 0xa4), 0, returndatasize())
-        // size additional context
+            // size additional context
             mstore(add(fmp, add(0xa4, encodedDataSize)), 0x04)
-        // additional context
+            // additional context
             mstore(
                 add(fmp, add(0xc4, encodedDataSize)),
                 and(additionalContext, 0xffffffff00000000000000000000000000000000000000000000000000000000)
