@@ -60,7 +60,7 @@ library SafePureFiValidate {
     }
 
     function getPayee(bytes calldata data) internal pure returns (address payee) {
-        // можно сделать локальную переменную
+        // can be converted to local variable
         if ((getPackageType(data) & 64) != 64) {
             MissingPaymentDataError.selector.revertWith();
         }
