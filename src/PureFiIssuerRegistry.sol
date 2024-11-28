@@ -4,14 +4,13 @@ import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol"
 import {PureFiVerifier} from "./PureFiVerifier.sol";
 
 contract PureFiIssuerRegistry is AccessControlUpgradeable {
-
     event IssuerAdded(address indexed issuer);
     event IssuerRemoved(address indexed issuer);
     event VerifierSettle(address indexed verifier);
 
     PureFiVerifier public verifier;
 
-    function version() public pure returns (uint32){
+    function version() public pure returns (uint32) {
         // 000.000.000 - Major.minor.internal
         return 2000000;
     }
@@ -19,7 +18,6 @@ contract PureFiIssuerRegistry is AccessControlUpgradeable {
     function initialize(address _admin) external initializer {
         __AccessControl_init();
         _grantRole(DEFAULT_ADMIN_ROLE, _admin);
-
     }
 
     function register(address _issuer) external onlyRole(DEFAULT_ADMIN_ROLE) {

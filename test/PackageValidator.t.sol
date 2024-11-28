@@ -109,7 +109,6 @@ contract PackageValidatorTest is Test {
         );
     }
 
-
     function test_ShouldReturnCorrectSessionType1() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType1())), testPackage.SESSION()
@@ -187,7 +186,6 @@ contract PackageValidatorTest is Test {
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType240())), testPackage.SESSION()
         );
     }
-
 
     function test_ShouldReturnCorrectRuleType1() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType1())), testPackage.RULE());

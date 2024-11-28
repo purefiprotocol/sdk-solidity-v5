@@ -19,8 +19,7 @@ contract PureFiVerifierDeployment is Script {
         vm.stopBroadcast();
     }
 
-
-    function deployIssuerRegistryProxy() internal returns (PureFiIssuerRegistry registry){
+    function deployIssuerRegistryProxy() internal returns (PureFiIssuerRegistry registry) {
         PureFiIssuerRegistry implementation = new PureFiIssuerRegistry();
         TransparentUpgradeableProxy proxy = new TransparentUpgradeableProxy(
             address(implementation),

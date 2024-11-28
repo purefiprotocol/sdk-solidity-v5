@@ -19,7 +19,6 @@ contract PureFiVerifierTest is Test {
     address internal issuer;
     uint256 internal issuerPk;
 
-
     function setUp() public {
         (issuerRegistry, issuerRegistryPk) = makeAddrAndKey("issuerRegistry");
         (issuer, issuerPk) = makeAddrAndKey("issuer");
@@ -33,9 +32,7 @@ contract PureFiVerifierTest is Test {
         vm.stopBroadcast();
     }
 
-
     function testValidate() public {
-
         uint64 time = uint64(block.timestamp);
         bytes memory package = abi.encode(testPackage.getTestPackageType2());
         bytes32 digest = keccak256(abi.encodePacked(time, package));

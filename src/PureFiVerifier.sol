@@ -34,8 +34,7 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
 
     // TODO Clarify about clearStorage() function
 
-
-    function validatePayload(bytes calldata _payload) nonReentrant external {
+    function validatePayload(bytes calldata _payload) external nonReentrant {
         _validatePayload(_payload);
     }
 
@@ -53,7 +52,12 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         );
     }
 
-    function validateAndDecode(bytes calldata _purefidata) override nonReentrant external returns (VerificationPackage memory){
+    function validateAndDecode(bytes calldata _purefidata)
+        external
+        override
+        nonReentrant
+        returns (VerificationPackage memory)
+    {
         bytes calldata package = _validatePayload(_purefidata);
 
         return VerificationPackage(
@@ -69,7 +73,12 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         );
     }
 
-    function validatePureFiData(bytes calldata _purefidata) override nonReentrant external returns (bytes calldata, uint16) {
+    function validatePureFiData(bytes calldata _purefidata)
+        external
+        override
+        nonReentrant
+        returns (bytes calldata, uint16)
+    {
         // TODO why 0?
         return (_validatePayload(_purefidata), 0);
     }
@@ -86,11 +95,13 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         }
         PureFiData calldata pureFiData;
 
-        assembly("memory-safe") {
+        assembly ("memory-safe") {
             pureFiData := _payload.offset
         }
 
-        (address recovered,,) = ECDSA.tryRecover(keccak256(abi.encodePacked(pureFiData.timestamp, pureFiData.package)), pureFiData.signature);
+        (address recovered,,) = ECDSA.tryRecover(
+            keccak256(abi.encodePacked(pureFiData.timestamp, pureFiData.package)), pureFiData.signature
+        );
         _checkRole(ISSUER_ROLE, recovered);
 
         if (block.timestamp > pureFiData.timestamp + graceTime) {
@@ -101,12 +112,15 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
             AlreadyUsedPayloadError.selector.revertWith();
         }
 
-//        if (!((pureFiData.package.getTo() == msg.sender) || ((pureFiData.package.getPackageType() == 2 || pureFiData.package.getPackageType() == 3) && pureFiData.package.getFrom() == _msgSender()))) {
-//            InvalidContractCallerError.selector.revertWith();
-//        }
+        //        if (!((pureFiData.package.getTo() == msg.sender) || ((pureFiData.package.getPackageType() == 2 || pureFiData.package.getPackageType() == 3) && pureFiData.package.getFrom() == _msgSender()))) {
+        //            InvalidContractCallerError.selector.revertWith();
+        //        }
 
         // TODO check condition below more detailed
-        if (pureFiData.package.getTo() != msg.sender && pureFiData.package.getPackageType() != 2 && pureFiData.package.getPackageType() != 3 && pureFiData.package.getFrom() != _msgSender()) {
+        if (
+            pureFiData.package.getTo() != msg.sender && pureFiData.package.getPackageType() != 2
+                && pureFiData.package.getPackageType() != 3 && pureFiData.package.getFrom() != _msgSender()
+        ) {
             InvalidContractCallerError.selector.revertWith();
         }
 
@@ -116,5 +130,4 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
 
         return pureFiData.package;
     }
-
 }
