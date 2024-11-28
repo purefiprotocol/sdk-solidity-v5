@@ -18,148 +18,330 @@ contract PackageValidatorTest is Test {
         helperFunctions = new WorkaroundFunctions();
     }
 
-    function test_ShouldReturnCorrectPackageType() public view {
+    function test_ShouldReturnCorrectPackageType1() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType1())),
             testPackage.PACKAGE_TYPE_1()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType2() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType2())),
             testPackage.PACKAGE_TYPE_2()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType32() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType32())),
             testPackage.PACKAGE_TYPE_32()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType48() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType48())),
             testPackage.PACKAGE_TYPE_48()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType64() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType64())),
             testPackage.PACKAGE_TYPE_64()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType96() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType96())),
             testPackage.PACKAGE_TYPE_96()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType112() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType112())),
             testPackage.PACKAGE_TYPE_112()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType128() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType128())),
             testPackage.PACKAGE_TYPE_128()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType160() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType160())),
             testPackage.PACKAGE_TYPE_160()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType176() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType176())),
             testPackage.PACKAGE_TYPE_176()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType192() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType192())),
             testPackage.PACKAGE_TYPE_192()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType224() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType224())),
             testPackage.PACKAGE_TYPE_224()
         );
+    }
+
+    function test_ShouldReturnCorrectPackageType240() public view {
         assertEq(
             helperFunctions.workaround_packageType(abi.encode(testPackage.getTestPackageType240())),
             testPackage.PACKAGE_TYPE_240()
         );
     }
 
-    function test_ShouldReturnCorrectSession() public view {
+
+    function test_ShouldReturnCorrectSessionType1() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType1())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType2() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType2())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType32() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType32())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType48() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType48())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType64() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType64())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType96() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType96())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType112() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType112())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType128() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType128())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType160() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType160())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType176() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType176())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType192() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType192())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType224() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType224())), testPackage.SESSION()
         );
+    }
+
+    function test_ShouldReturnCorrectSessionType240() public view {
         assertEq(
             helperFunctions.workaround_session(abi.encode(testPackage.getTestPackageType240())), testPackage.SESSION()
         );
     }
 
-    function test_ShouldReturnCorrectRule() public view {
+
+    function test_ShouldReturnCorrectRuleType1() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType1())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType2() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType2())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType32() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType32())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType48() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType48())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType64() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType64())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType96() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType96())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType112() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType112())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType128() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType128())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType160() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType160())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType176() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType176())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType192() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType192())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType224() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType224())), testPackage.RULE());
+    }
+
+    function test_ShouldReturnCorrectRuleType240() public view {
         assertEq(helperFunctions.workaround_rule(abi.encode(testPackage.getTestPackageType240())), testPackage.RULE());
     }
 
-    function test_ShouldReturnCorrectFrom() public view {
+    function test_ShouldReturnCorrectFromType1() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType1())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType2() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType2())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType32() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType32())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType48() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType48())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType64() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType64())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType96() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType96())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType112() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType112())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType128() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType128())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType160() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType160())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType176() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType176())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType192() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType192())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType224() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType224())), testPackage.FROM());
+    }
+
+    function test_ShouldReturnCorrectFromType240() public view {
         assertEq(helperFunctions.workaround_from(abi.encode(testPackage.getTestPackageType240())), testPackage.FROM());
     }
 
-    function test_ShouldReturnCorrectTo() public view {
+    function test_ShouldReturnCorrectToType1() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType1())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType2() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType2())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType32() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType32())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType48() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType48())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType64() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType64())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType96() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType96())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType112() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType112())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType128() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType128())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType160() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType160())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType176() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType176())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType192() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType192())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType224() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType224())), testPackage.TO());
+    }
+
+    function test_ShouldReturnCorrectToType240() public view {
         assertEq(helperFunctions.workaround_to(abi.encode(testPackage.getTestPackageType240())), testPackage.TO());
     }
 
