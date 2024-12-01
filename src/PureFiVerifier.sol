@@ -17,6 +17,7 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
     uint256 public graceTime;
 
     event PureFiPackageProcessed(address indexed caller, uint256 session);
+    event PureFiStorageClear(address caller, uint256 sessionId);
 
     error PureFiDataExpiredError();
     error TooShortPayloadError();
@@ -32,55 +33,20 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         _grantRole(DEFAULT_ADMIN_ROLE, issuerRegistry);
     }
 
-    // TODO Clarify about clearStorage() function
+    function clearStorage(uint256[] memory _sessions) external nonReentrant {
+        // 86400 seconds == 1 day
+        uint256 sessionCleared = 0;
+        for (uint256 i = 0; i < _sessions.length; i++) {
+            if (requestsProcessed[_sessions[i]] + 86400 < block.timestamp) {
+                delete requestsProcessed[_sessions[i]];
+                sessionCleared++;
+            }
+        }
+        emit PureFiStorageClear(_msgSender(), sessionCleared);
+    }
 
     function validatePayload(bytes calldata _payload) external nonReentrant {
         _validatePayload(_payload);
-    }
-
-    function decodePureFiPackage(bytes calldata _pureFiPackage) external pure returns (VerificationPackage memory) {
-        return VerificationPackage(
-            _pureFiPackage.getPackageType(),
-            _pureFiPackage.getSession(),
-            _pureFiPackage.getRule(),
-            _pureFiPackage.getFrom(),
-            _pureFiPackage.getTo(),
-            _pureFiPackage.getToken0(),
-            _pureFiPackage.getToken0Amount(),
-            /// TODO payload ???
-            ""
-        );
-    }
-
-    function validateAndDecode(bytes calldata _purefidata)
-        external
-        override
-        nonReentrant
-        returns (VerificationPackage memory)
-    {
-        bytes calldata package = _validatePayload(_purefidata);
-
-        return VerificationPackage(
-            package.getPackageType(),
-            package.getSession(),
-            package.getRule(),
-            package.getFrom(),
-            package.getTo(),
-            package.getToken0(),
-            package.getToken0Amount(),
-            /// TODO payload ???
-            ""
-        );
-    }
-
-    function validatePureFiData(bytes calldata _purefidata)
-        external
-        override
-        nonReentrant
-        returns (bytes calldata, uint16)
-    {
-        // TODO why 0?
-        return (_validatePayload(_purefidata), 0);
     }
 
     function version() public pure returns (uint32) {
