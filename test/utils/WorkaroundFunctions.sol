@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.10;
 
-import "../../src/libraries/SafePureFiValidate.sol";
+import "../../src/libraries/PureFiDataLibrary.sol";
 
 import "forge-std/console.sol";
 
 // @notice We need to use workaround contract because through external functions we can use memory data in functions that require calldata
 // @notice More info: https://book.getfoundry.sh/tutorials/best-practices#workaround-functions
 contract WorkaroundFunctions {
-    using SafePureFiValidate for bytes;
+    using PureFiDataLibrary for bytes;
 
     function workaround_packageType(bytes calldata data) external pure returns (uint8) {
         return data.getPackageType();

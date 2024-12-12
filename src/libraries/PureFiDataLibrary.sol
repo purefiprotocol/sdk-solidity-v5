@@ -3,7 +3,7 @@ pragma solidity ^0.8.10;
 
 import "../libraries/CustomRevert.sol";
 
-library SafePureFiValidate {
+library PureFiDataLibrary {
     using CustomRevert for bytes4;
 
     error InsufficientDataLengthError();

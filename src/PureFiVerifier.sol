@@ -3,14 +3,14 @@ pragma solidity ^0.8.27;
 
 import "./interfaces/IPureFiVerifier.sol";
 import "./libraries/CustomRevert.sol";
-import {SafePureFiValidate} from "./libraries/SafePureFiValidate.sol";
+import {PureFiDataLibrary} from "./libraries/PureFiDataLibrary.sol";
 import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardTransientUpgradeable.sol";
 
 contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, ReentrancyGuardTransientUpgradeable {
     using CustomRevert for bytes4;
-    using SafePureFiValidate for bytes;
+    using PureFiDataLibrary for bytes;
 
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
     mapping(uint256 => uint256) public requestsProcessed;
