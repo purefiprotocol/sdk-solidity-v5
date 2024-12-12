@@ -79,7 +79,6 @@ contract IPackageTypes {
         address from;
         address to;
         address intermediary;
-        uint256 tokenData0;
     }
 
     struct PackageType160 {

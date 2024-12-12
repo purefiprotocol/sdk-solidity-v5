@@ -25,31 +25,31 @@ Each package type struct contains the following common fields:
 
 ### Basic Package Types
 
-| Package Type | Unique Fields | Additional Information |
-|---|---|---|
-| Type 1 | None | Minimal package with basic routing information |
-| Type 2 | `token0`, `tokenAmount0` | Includes token transfer details |
-| Type 32 | `tokenData0` | Single token-related data |
-| Type 48 | `tokenData0`, `tokenData1` | Two pieces of token-related data |
+| Package Type | Unique Fields              | Additional Information                         |
+|--------------|----------------------------|------------------------------------------------|
+| Type 1       | None                       | Minimal package with basic routing information |
+| Type 2       | `token0`, `tokenAmount0`   | Includes token transfer details                |
+| Type 32      | `tokenData0`               | Single token-related data                      |
+| Type 48      | `tokenData0`, `tokenData1` | Two pieces of token-related data               |
 
 ### Payment-Related Package Types
 
-| Package Type | Unique Fields | Additional Information |
-|---|---|---|
-| Type 64 | `payee`, `paymentData` | Basic payment package |
-| Type 96 | `payee`, `paymentData`, `tokenData0` | Payment with additional token data |
-| Type 112 | `payee`, `paymentData`, `tokenData0`, `tokenData1` | Complex payment package |
+| Package Type | Unique Fields                                      | Additional Information             |
+|--------------|----------------------------------------------------|------------------------------------|
+| Type 64      | `payee`, `paymentData`                             | Basic payment package              |
+| Type 96      | `payee`, `paymentData`, `tokenData0`               | Payment with additional token data |
+| Type 112     | `payee`, `paymentData`, `tokenData0`, `tokenData1` | Complex payment package            |
 
 ### Intermediary Package Types
 
-| Package Type | Unique Fields | Additional Information |
-|---|---|---|
-| Type 128 | `intermediary`, `tokenData0` | Package with intermediary routing |
-| Type 160 | `intermediary`, `tokenData0` | Similar to Type 128 |
-| Type 176 | `intermediary`, `tokenData0`, `tokenData1` | Intermediary with multiple token data points |
-| Type 192 | `intermediary`, `payee`, `paymentData` | Intermediary payment package |
-| Type 224 | `intermediary`, `payee`, `paymentData`, `tokenData0` | Complex intermediary payment |
-| Type 240 | `intermediary`, `payee`, `paymentData`, `tokenData0`, `tokenData1` | Most complex intermediary package |
+| Package Type | Unique Fields                                                      | Additional Information                       |
+|--------------|--------------------------------------------------------------------|----------------------------------------------|
+| Type 128     | `intermediary`                                                     | Package with intermediary routing            |
+| Type 160     | `intermediary`, `tokenData0`                                       | Similar to Type 128                          |
+| Type 176     | `intermediary`, `tokenData0`, `tokenData1`                         | Intermediary with multiple token data points |
+| Type 192     | `intermediary`, `payee`, `paymentData`                             | Intermediary payment package                 |
+| Type 224     | `intermediary`, `payee`, `paymentData`, `tokenData0`               | Complex intermediary payment                 |
+| Type 240     | `intermediary`, `payee`, `paymentData`, `tokenData0`, `tokenData1` | Most complex intermediary package            |
 
 
 ## 💻 Usage Example

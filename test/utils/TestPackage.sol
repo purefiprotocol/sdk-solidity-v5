@@ -63,7 +63,7 @@ contract TestPackage is IPackageTypes {
     }
 
     function getTestPackageType128() public view returns (PackageType128 memory) {
-        return PackageType128(PACKAGE_TYPE_128, SESSION, RULE, FROM, TO, INTERMEDIARY, TOKEN_DATA_0);
+        return PackageType128(PACKAGE_TYPE_128, SESSION, RULE, FROM, TO, INTERMEDIARY);
     }
 
     function getTestPackageType160() public view returns (PackageType160 memory) {
