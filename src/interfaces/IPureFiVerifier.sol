@@ -9,7 +9,6 @@ struct PureFiData {
 
 interface IPureFiVerifier {
     /// @dev Validates a given payload and returns the parsed package data.
-    /// @param _payload The payload to validate.
-    /// @return The parsed package data.
+    /// @param payload The payload to validate.
     function validatePayload(bytes calldata payload) external;
 }
