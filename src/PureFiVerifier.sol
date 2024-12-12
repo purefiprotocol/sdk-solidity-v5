@@ -33,6 +33,9 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         _grantRole(DEFAULT_ADMIN_ROLE, issuerRegistry);
     }
 
+    /// @dev Clears expired sessions from storage.
+    /// After day
+    /// @param _sessions An array of session IDs to be cleared.
     function clearStorage(uint256[] memory _sessions) external nonReentrant {
         // 86400 seconds == 1 day
         uint256 sessionCleared = 0;
@@ -45,15 +48,27 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         emit PureFiStorageClear(_msgSender(), sessionCleared);
     }
 
+    /// @dev Validates a payload and marks the session as processed.
+    ///
+    /// Reverts with appropriate errors if the payload is invalid or the session has already been processed.
+    ///
+    /// @param _payload The payload to validate.
     function validatePayload(bytes calldata _payload) external nonReentrant {
         _validatePayload(_payload);
     }
 
+    /// @dev Returns the current version of the contract.
+    ///
+    /// @return The version number in the format `Major.minor.internal`.
     function version() public pure returns (uint32) {
         // 000.000.000 - Major.minor.internal
         return 5000000;
     }
 
+    /// @dev Validates a payload and returns the parsed package data.
+    ///
+    /// @param _payload The payload to validate.
+    /// @return The parsed package data.
     function _validatePayload(bytes calldata _payload) internal returns (bytes calldata) {
         //min package size = 8+65 +1+32
         if (_payload.length <= (8 + 65 + 1 + 32)) {
@@ -78,11 +93,6 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
             AlreadyUsedPayloadError.selector.revertWith();
         }
 
-        //        if (!((pureFiData.package.getTo() == msg.sender) || ((pureFiData.package.getPackageType() == 2 || pureFiData.package.getPackageType() == 3) && pureFiData.package.getFrom() == _msgSender()))) {
-        //            InvalidContractCallerError.selector.revertWith();
-        //        }
-
-        // TODO check condition below more detailed
         if (
             pureFiData.package.getTo() != msg.sender && pureFiData.package.getPackageType() != 2
                 && pureFiData.package.getPackageType() != 3 && pureFiData.package.getFrom() != _msgSender()
