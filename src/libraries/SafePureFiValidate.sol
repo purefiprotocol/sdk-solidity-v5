@@ -13,11 +13,6 @@ library SafePureFiValidate {
     error MissingToken1DataError();
     error ExpectedSecondPackageTypeError();
 
-    //    function validateDataLength(bytes calldata data) internal pure {
-    //        if (data.length < 181) {
-    //            InsufficientDataLengthError.selector.revertWith();
-    //        }
-    //    }
 
     function getPackageType(bytes calldata data) internal pure returns (uint8 packageType) {
         assembly {
@@ -60,7 +55,6 @@ library SafePureFiValidate {
     }
 
     function getPayee(bytes calldata data) internal pure returns (address payee) {
-        // can be converted to local variable
         if ((getPackageType(data) & 64) != 64) {
             MissingPaymentDataError.selector.revertWith();
         }
@@ -79,7 +73,6 @@ library SafePureFiValidate {
     }
 
     function getPaymentData(bytes calldata data) internal pure returns (address token, uint256 amount) {
-        // Can be replaced with the local variable(2 calls)
         if ((getPackageType(data) & 64) != 64) {
             MissingPaymentDataError.selector.revertWith();
         }
@@ -101,95 +94,72 @@ library SafePureFiValidate {
     }
 
     function getTokenData0(bytes calldata data) internal pure returns (address token, uint256 amount) {
-        // Can be replaced with the local variable(2 calls)
-        // Check PackageType
-        if ((getPackageType(data) & 32) != 32) {
-            MissingToken0DataError.selector.revertWith();
+        uint8 packageType = getPackageType(data);
+
+        // Check if Token0 data is present
+        if ((packageType & 32) != 32) {
+            revert MissingToken0DataError();
         }
+
         uint256 paymentData;
 
-        // Type32 and Type48
-        // Without Intermediary
-        // Without PaymentData
-        if (((getPackageType(data) & 128) != 128) && ((getPackageType(data) & 64) != 64)) {
+        // Determine correct offset based on package type
+        if ((packageType & 224) == 224) {
+            // Type 224 and 240: With Intermediary, With PaymentData
+            assembly {
+                paymentData := calldataload(add(data.offset, 256))
+            }
+        } else if ((packageType & 160) == 160) {
+            // Type 160 and 176: With Intermediary, Without PaymentData
+            assembly {
+                paymentData := calldataload(add(data.offset, 192))
+            }
+        } else if ((packageType & 96) == 96) {
+            // Type 96 and 112: Without Intermediary, With PaymentData
+            assembly {
+                paymentData := calldataload(add(data.offset, 224))
+            }
+        } else if ((packageType & 32) == 32) {
+            // Type 48 and 32: Without Intermediary, Without PaymentData
             assembly {
                 paymentData := calldataload(add(data.offset, 160))
             }
         }
-
-        // Type160 and Type176
-        // With Intermediary
-        // Without PaymentData
-        // Without Token1Data
-        if (((getPackageType(data) & 128) == 128) && ((getPackageType(data) & 64) != 64)) {
-            assembly {
-                paymentData := calldataload(add(data.offset, 192))
-            }
-        }
-
-        // Type224 and 240
-        // With Intermediary
-        // With PaymentData
-        if (((getPackageType(data) & 128) == 128) && ((getPackageType(data) & 64) == 64)) {
-            assembly {
-                paymentData := calldataload(add(data.offset, 256))
-            }
-        }
-
-        // Type112 and 96
-        // Without Intermediary
-        // With PaymentData
-        if (((getPackageType(data) & 128) != 128) && ((getPackageType(data) & 64) == 64)) {
-            assembly {
-                paymentData := calldataload(add(data.offset, 224))
-            }
-        }
-
+        // Parse token data
         (token, amount) = parseTokenData(paymentData);
     }
 
     function getTokenData1(bytes calldata data) internal pure returns (address token, uint256 amount) {
-        // Check PackageType
+        // Check if the required token data bit is set
         if ((getPackageType(data) & 16) != 16) {
-            MissingToken1DataError.selector.revertWith();
+            revert MissingToken1DataError();
         }
+
         uint256 paymentData;
-        //Type240
-        // With Intermediary
-        // With PaymentData
-        if (((getPackageType(data) & 128) == 128) && ((getPackageType(data) & 64) == 64)) {
+
+        // Determine the correct offset based on package type
+        if ((getPackageType(data) & 240) == 240) {
+            // Type 240: With Intermediary, With PaymentData
             assembly {
                 paymentData := calldataload(add(data.offset, 288))
             }
-        }
-
-        //Type176
-        // With Intermediary
-        // Without PaymentData
-        if (((getPackageType(data) & 128) == 128) && ((getPackageType(data) & 64) != 64)) {
+        } else if ((getPackageType(data) & 176) == 176) {
+            // Type 176: With Intermediary, Without PaymentData
             assembly {
                 paymentData := calldataload(add(data.offset, 224))
             }
-        }
-
-        //Type112
-        // Without Intermediary
-        // With PaymentData
-        if (((getPackageType(data) & 128) != 128) && ((getPackageType(data) & 64) == 64)) {
+        } else if ((getPackageType(data) & 112) == 112) {
+            // Type 112: Without Intermediary, With PaymentData
             assembly {
                 paymentData := calldataload(add(data.offset, 256))
             }
-        }
-
-        //Type48
-        // Without Intermediary
-        // With PaymentData
-        if (((getPackageType(data) & 128) != 128) && ((getPackageType(data) & 64) != 64)) {
+        } else if ((getPackageType(data) & 48) == 48) {
+            // Type 48: Without Intermediary, Without PaymentData
             assembly {
                 paymentData := calldataload(add(data.offset, 192))
             }
         }
-
+        // Parse token data
         (token, amount) = parseTokenData(paymentData);
     }
 
