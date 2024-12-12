@@ -84,7 +84,6 @@ library PureFiDataLibrary {
      * @param data The input bytes calldata containing intermediary information
      * @return intermediary The address of the intermediary
      * @custom:security Reverts if the intermediary flag is not set in the package type
-     * @custom:error MissingIntermediaryFlagError Thrown when intermediary flag is not present
      */
     function getIntermediary(bytes calldata data) internal pure returns (address intermediary) {
         if ((getPackageType(data) & 128) != 128) {
@@ -102,7 +101,6 @@ library PureFiDataLibrary {
      * @param data The input bytes calldata containing payee information
      * @return payee The address of the payee
      * @custom:security Reverts if payment data flag is not set in the package type
-     * @custom:error MissingPaymentDataError Thrown when payment data flag is not present
      *
      * @custom:note Payee address location depends on package type:
      * - For types with intermediary (192, 224, 240): Payee at offset 192
