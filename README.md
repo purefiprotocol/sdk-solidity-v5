@@ -86,6 +86,12 @@ Add to `remappings.txt`
 @purefi-verifier-light/=lib/purefi-verifier-light/src/
 ```
 
+or you can use 
+
+```shell
+npm install purefi-solidity
+```
+
 ## 🔗 Dependencies
 
 - Solidity ^0.8.20
