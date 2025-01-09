@@ -1,0 +1,44 @@
+{
+  "name": "sdk-solidity-v5",
+  "version": "5.0.0",
+  "description": "SDK designed for efficient, gas-optimized integration with the PureFi Protocol",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purefiprotocol/sdk-solidity-v5.git"
+  },
+  "files": [
+    "/contracts/**/*.sol",
+    "!/contracts/mocks/**/*"
+  ],
+  "keywords": [
+    "Solidity",
+    "KYC",
+    "AML",
+    "PureFi",
+    "Verifier",
+    "SSI",
+    "VC",
+    "Ethereum",
+    "DeFi",
+    "Token",
+    "ERC20"
+  ],
+  "author": "PureFi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/purefiprotocol/sdk-solidity-v5/issues"
+  },
+  "homepage": "https://github.com/purefiprotocol/sdk-solidity-v5#readme",
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.1.0",
+    "@openzeppelin/contracts-upgradeable": "^5.1.0"
+  }
+}
