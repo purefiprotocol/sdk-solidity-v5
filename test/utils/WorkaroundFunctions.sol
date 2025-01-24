@@ -58,6 +58,25 @@ contract WorkaroundFunctions {
         return data.getToken0Amount();
     }
 
+    function workaround_parseTokenData(uint256 data) external pure returns (address, uint256) {
+        return PureFiDataLibrary.parseTokenData(data);
+    }
+    /**
+     * @dev Encodes token data into a single unsigned 256-bit integer
+     * @param token Token address (160 bits)
+     * @param decimals Token's decimal places (8 bits)
+     * @param amount Normalized token value without decimal shift
+     * @return encodedTokenData Unsigned 256-bit integer with encoded value structure:
+     *   - Top 160 bits: token address
+     *   - Next 8 bits: decimal places
+     *   - Last 88 bits: amount
+     *
+     * @notice Input requirements:
+     *   - For 0.1 ETH: decimals = 17, amount = 1
+     *   - For 59999 wei: decimals = 0, amount = 59999
+     *   - For 324 ETH: decimals = 18, amount = 324
+     */
+
     function workaround_encodeTokenData(address token, uint8 decimals, uint256 amount)
         public
         pure
@@ -67,7 +86,7 @@ contract WorkaroundFunctions {
             encodedTokenData := shl(8, token)
             encodedTokenData := add(decimals, encodedTokenData)
             encodedTokenData := shl(88, encodedTokenData)
-            encodedTokenData := add(encodedTokenData, div(amount, exp(10, decimals)))
+            encodedTokenData := add(encodedTokenData, amount)
         }
     }
 }
