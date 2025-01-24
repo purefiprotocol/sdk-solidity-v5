@@ -411,12 +411,27 @@ contract PackageValidatorTest is Test {
         helperFunctions.workaround_intermediary(data);
     }
 
-    function test_ShouldReturnCorrectPayee() public view {
+    function test_ShouldReturnCorrectPayee_TestPackageType64() public view {
         assertEq(helperFunctions.workaround_payee(abi.encode(testPackage.getTestPackageType64())), testPackage.PAYEE());
+    }
+
+    function test_ShouldReturnCorrectPayee_TestPackageType96() public view {
         assertEq(helperFunctions.workaround_payee(abi.encode(testPackage.getTestPackageType96())), testPackage.PAYEE());
+    }
+
+    function test_ShouldReturnCorrectPayee_TestPackageType112() public view {
         assertEq(helperFunctions.workaround_payee(abi.encode(testPackage.getTestPackageType112())), testPackage.PAYEE());
+    }
+
+    function test_ShouldReturnCorrectPayee_TestPackageType192() public view {
         assertEq(helperFunctions.workaround_payee(abi.encode(testPackage.getTestPackageType192())), testPackage.PAYEE());
+    }
+
+    function test_ShouldReturnCorrectPayee_TestPackageType224() public view {
         assertEq(helperFunctions.workaround_payee(abi.encode(testPackage.getTestPackageType224())), testPackage.PAYEE());
+    }
+
+    function test_ShouldReturnCorrectPayee_TestPackageType240() public view {
         assertEq(helperFunctions.workaround_payee(abi.encode(testPackage.getTestPackageType240())), testPackage.PAYEE());
     }
 
