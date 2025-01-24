@@ -78,18 +78,18 @@ Add to your Hardhat/Foundry project:
 
 ```bash
 # Using Foundry
-forge install DmitriyIschenko/purefi-verifier-light
+forge install purefiprotocol/sdk-solidity-v5
 ```
 
 Add to `remappings.txt`
 ```
-@purefi-verifier-light/=lib/purefi-verifier-light/src/
+@purefi-sdk-solidity-v5/=lib/sdk-solidity-v5/src/
 ```
 
 or you can use 
 
 ```shell
-npm install purefi-solidity
+npm i @purefi/sdk-solidity-v5
 ```
 
 ## 🔗 Dependencies
