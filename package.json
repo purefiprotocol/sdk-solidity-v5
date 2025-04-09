@@ -16,7 +16,9 @@
   },
   "files": [
     "/contracts/**/*.sol",
-    "!/contracts/mocks/**/*"
+    "!/contracts/mocks/**/*",
+    "/src/**/*.sol",
+    "/src/*.sol"
   ],
   "keywords": [
     "Solidity",
