@@ -1,0 +1,33 @@
+{
+  "name": "@purefi/sdk-solidity-v5",
+  "version": "5.1.0",
+  "description": "SDK designed for efficient, gas-optimized integration with the PureFi Protocol",
+  "files": [
+    "**/*.sol",
+    "!mocks/**/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purefiprotocol/sdk-solidity-v5.git",
+    "directory": "src"
+  },
+  "keywords": [
+    "Solidity",
+    "KYC",
+    "AML",
+    "PureFi",
+    "Verifier",
+    "SSI",
+    "VC",
+    "Ethereum",
+    "DeFi",
+    "Token",
+    "ERC20"
+  ],
+  "author": "PureFi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/purefiprotocol/sdk-solidity-v5/issues"
+  },
+  "homepage": "https://github.com/purefiprotocol/sdk-solidity-v5#readme"
+}

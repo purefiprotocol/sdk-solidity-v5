@@ -89,4 +89,47 @@ contract WorkaroundFunctions {
             encodedTokenData := add(encodedTokenData, amount)
         }
     }
+
+    /**
+     * @dev Workaround function to call PureFiDataLibrary.getPackage with calldata
+     * @param data The input bytes calldata containing the full PureFi payload
+     * @return package The package bytes extracted from the payload
+     */
+    function workaround_getPackage(bytes calldata data) external pure returns (bytes memory) {
+        return PureFiDataLibrary.getPackage(data);
+    }
+
+    /**
+     * @dev Workaround function to call PureFiDataLibrary.getTimestamp with calldata
+     * @param data The input bytes calldata containing the full PureFi payload
+     * @return timestamp The timestamp extracted from the payload as a 64-bit unsigned integer
+     */
+    function workaround_getTimestamp(bytes calldata data) external pure returns (uint64) {
+        return PureFiDataLibrary.getTimestamp(data);
+    }
+
+    /**
+     * @dev Workaround function to call PureFiDataLibrary.getSignature with calldata
+     * @param data The input bytes calldata containing the full PureFi payload
+     * @return signature The signature bytes extracted from the payload
+     */
+    function workaround_getSignature(bytes calldata data) external pure returns (bytes memory) {
+        return PureFiDataLibrary.getSignature(data);
+    }
+
+    /**
+     * @dev Workaround function to call PureFiDataLibrary.decodePureFiData with calldata
+     * @param data The input bytes calldata containing the full PureFi payload
+     * @return timestamp The timestamp extracted from the payload
+     * @return signature The signature bytes extracted from the payload
+     * @return package The package bytes extracted from the payload
+     */
+    function workaround_decodePureFiData(bytes calldata data)
+        external
+        pure
+        returns (uint64, bytes memory, bytes memory)
+    {
+        (uint64 timestamp, bytes calldata signature, bytes calldata package) = PureFiDataLibrary.decodePureFiData(data);
+        return (timestamp, signature, package); // Преобразуем calldata в memory для тестов
+    }
 }
