@@ -55,9 +55,22 @@ Each package type struct contains the following common fields:
 ## 💻 Usage Example
 
 ```solidity
- function buyForWithKYCPurefi1(address _to, bytes calldata _purefidata) external payable nonReentrant {
-    verifier.validatePayload(_purefidata);
-    _buy(_to);
+contract PureFiExample {
+    using PureFiDataLibrary for bytes;
+    IPureFiVerifier public verifier;
+    uint256 public requiredRuleId;
+
+    constructor(address _verifier, uint256 _requiredRuleId) {
+        verifier = IPureFiVerifier(_verifier);
+        requiredRuleId = _requiredRuleId;
+    }
+
+    function buy(bytes calldata _purefidata) external payable {
+        verifier.validatePayload(_purefidata);
+        bytes calldata package = _purefidata.getPackage();
+        require(package.getRule() == requiredRuleId, "Invalid ruleId");
+        // Purchase logic here
+    }
 }
 ```
 
