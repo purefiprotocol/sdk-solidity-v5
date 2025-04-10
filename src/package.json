@@ -1,6 +1,6 @@
 {
   "name": "@purefi/sdk-solidity-v5",
-  "version": "5.0.3",
+  "version": "5.1.0",
   "description": "SDK designed for efficient, gas-optimized integration with the PureFi Protocol",
   "files": [
     "**/*.sol",
