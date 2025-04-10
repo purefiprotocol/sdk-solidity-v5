@@ -136,22 +136,14 @@ contract CustomRevertTest is Test {
         bytes memory revertData = abi.encodeWithSelector(MockRevertingContract.SimpleError.selector);
 
         // Use vm.mockCallRevert to mock the revert behavior
-        vm.mockCallRevert(
-            address(mockContract),
-            abi.encodeWithSelector(originalSelector),
-            revertData
-        );
+        vm.mockCallRevert(address(mockContract), abi.encodeWithSelector(originalSelector), revertData);
 
         // Now we need to directly test the assembly code functionality
         // For this test we'll check if the correct error code is used
         vm.expectRevert();
 
         // Direct call to bubbleUpAndRevertWith with mocked values
-        CustomRevert.bubbleUpAndRevertWith(
-            address(mockContract),
-            originalSelector,
-            additionalContext
-        );
+        CustomRevert.bubbleUpAndRevertWith(address(mockContract), originalSelector, additionalContext);
     }
 
     /**
@@ -165,28 +157,17 @@ contract CustomRevertTest is Test {
         string memory param2 = "test";
 
         // Mock the revert data for a parameterized error
-        bytes memory revertData = abi.encodeWithSelector(
-            MockRevertingContract.ParameterizedError.selector,
-            param1,
-            param2
-        );
+        bytes memory revertData =
+            abi.encodeWithSelector(MockRevertingContract.ParameterizedError.selector, param1, param2);
 
         // Mock the call revert
-        vm.mockCallRevert(
-            address(mockContract),
-            abi.encodeWithSelector(originalSelector, param1, param2),
-            revertData
-        );
+        vm.mockCallRevert(address(mockContract), abi.encodeWithSelector(originalSelector, param1, param2), revertData);
 
         // Since the bubbling up process is complex, just check that it reverts
         vm.expectRevert();
 
         // Direct call with the mocked values
-        CustomRevert.bubbleUpAndRevertWith(
-            address(mockContract),
-            originalSelector,
-            additionalContext
-        );
+        CustomRevert.bubbleUpAndRevertWith(address(mockContract), originalSelector, additionalContext);
     }
 
     /**
@@ -246,20 +227,12 @@ contract CustomRevertTest is Test {
         bytes memory revertReason = abi.encodeWithSelector(bytes4(keccak256("Error(string)")), "Test error");
 
         // Set returndata to simulate a revert
-        vm.mockCallRevert(
-            prankedAddress,
-            abi.encodeWithSelector(selector),
-            revertReason
-        );
+        vm.mockCallRevert(prankedAddress, abi.encodeWithSelector(selector), revertReason);
 
         // Expect revert (we can't easily predict the exact encoded error)
         vm.expectRevert();
 
-        CustomRevert.bubbleUpAndRevertWith(
-            prankedAddress,
-            selector,
-            additionalContext
-        );
+        CustomRevert.bubbleUpAndRevertWith(prankedAddress, selector, additionalContext);
     }
 }
 

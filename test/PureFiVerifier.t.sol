@@ -107,7 +107,7 @@ contract PureFiVerifierTest is Test {
      * @dev Helper function to create payload with default values for optional parameters
      */
     function createValidPayload(uint8 packageType, uint64 timestamp) internal returns (bytes memory) {
-        (bytes memory payload, ) = createValidPayload(packageType, timestamp, address(0), address(0), 0);
+        (bytes memory payload,) = createValidPayload(packageType, timestamp, address(0), address(0), 0);
         return payload;
     }
 
@@ -115,9 +115,10 @@ contract PureFiVerifierTest is Test {
      * @dev Helper function for address customization without session customization
      */
     function createValidPayload(uint8 packageType, uint64 timestamp, address customFrom, address customTo)
-    internal returns (bytes memory)
+        internal
+        returns (bytes memory)
     {
-        (bytes memory payload, ) = createValidPayload(packageType, timestamp, customFrom, customTo, 0);
+        (bytes memory payload,) = createValidPayload(packageType, timestamp, customFrom, customTo, 0);
         return payload;
     }
 
@@ -241,8 +242,8 @@ contract PureFiVerifierTest is Test {
         uint256 session1 = 12345;
         uint256 session2 = 67890;
 
-        (bytes memory encodedPackage1, ) = createValidPayload(2, 0, address(0), address(0), session1);
-        (bytes memory encodedPackage2, ) = createValidPayload(2, 0, address(0), address(0), session2);
+        (bytes memory encodedPackage1,) = createValidPayload(2, 0, address(0), address(0), session1);
+        (bytes memory encodedPackage2,) = createValidPayload(2, 0, address(0), address(0), session2);
 
         verifier.validatePayload(encodedPackage1);
         verifier.validatePayload(encodedPackage2);
@@ -275,7 +276,7 @@ contract PureFiVerifierTest is Test {
     function testClearStorageWithNonExpiredSessions() public {
         // Create and validate a payload with custom session ID
         uint256 session = 9999;
-        (bytes memory encodedPackage, ) = createValidPayload(2, 0, address(0), address(0), session);
+        (bytes memory encodedPackage,) = createValidPayload(2, 0, address(0), address(0), session);
         verifier.validatePayload(encodedPackage);
 
         // Verify session is stored
@@ -331,7 +332,9 @@ contract PureFiVerifierTest is Test {
         bytes memory extractedPackage = helperFunctions.workaround_getPackage(encodedPackage);
 
         // Verify the extracted package matches the expected package
-        assertEq(keccak256(extractedPackage), keccak256(expectedPackage), "Extracted package does not match expected package");
+        assertEq(
+            keccak256(extractedPackage), keccak256(expectedPackage), "Extracted package does not match expected package"
+        );
     }
 
     /**
@@ -366,7 +369,11 @@ contract PureFiVerifierTest is Test {
         bytes memory extractedSignature = helperFunctions.workaround_getSignature(encodedPackage);
 
         // Verify the extracted signature matches the expected signature
-        assertEq(keccak256(extractedSignature), keccak256(expectedSignature), "Extracted signature does not match expected signature");
+        assertEq(
+            keccak256(extractedSignature),
+            keccak256(expectedSignature),
+            "Extracted signature does not match expected signature"
+        );
     }
 
     /**
@@ -383,7 +390,7 @@ contract PureFiVerifierTest is Test {
 
         // Extract components using decodePureFiData through helperFunctions
         (uint64 extractedTimestamp, bytes memory extractedSignature, bytes memory extractedPackage) =
-                            helperFunctions.workaround_decodePureFiData(encodedPackage);
+            helperFunctions.workaround_decodePureFiData(encodedPackage);
 
         // Verify all extracted components match expected values
         assertEq(extractedTimestamp, expectedTimestamp, "Timestamp does not match expected value");

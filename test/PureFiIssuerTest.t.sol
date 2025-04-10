@@ -62,5 +62,4 @@ contract PureFiIssuerRegistryTest is Test {
 
         assertFalse(verifier.hasRole(verifier.ISSUER_ROLE(), issuer));
     }
-
 }
