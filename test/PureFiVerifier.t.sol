@@ -63,7 +63,7 @@ contract PureFiVerifierTest is Test {
         address customFrom,
         address customTo,
         uint256 customSession
-    ) internal returns (bytes memory, uint256) {
+    ) internal view returns (bytes memory, uint256) {
         if (timestamp == 0) {
             timestamp = uint64(block.timestamp);
         }
@@ -106,7 +106,7 @@ contract PureFiVerifierTest is Test {
     /**
      * @dev Helper function to create payload with default values for optional parameters
      */
-    function createValidPayload(uint8 packageType, uint64 timestamp) internal returns (bytes memory) {
+    function createValidPayload(uint8 packageType, uint64 timestamp) internal view returns (bytes memory) {
         (bytes memory payload,) = createValidPayload(packageType, timestamp, address(0), address(0), 0);
         return payload;
     }
@@ -115,8 +115,8 @@ contract PureFiVerifierTest is Test {
      * @dev Helper function for address customization without session customization
      */
     function createValidPayload(uint8 packageType, uint64 timestamp, address customFrom, address customTo)
-        internal
-        returns (bytes memory)
+    internal view
+    returns (bytes memory)
     {
         (bytes memory payload,) = createValidPayload(packageType, timestamp, customFrom, customTo, 0);
         return payload;
@@ -203,7 +203,7 @@ contract PureFiVerifierTest is Test {
         uint64 timestamp = uint64(block.timestamp - verifier.graceTime() - 1);
         bytes memory encodedPackage = createValidPayload(2, timestamp);
 
-        vm.expectRevert(PureFiVerifier.PureFiDataExpiredError.selector);
+        vm.expectRevert(IPureFiVerifier.PureFiDataExpiredError.selector);
         verifier.validatePayload(encodedPackage);
     }
 
@@ -218,7 +218,7 @@ contract PureFiVerifierTest is Test {
         verifier.validatePayload(encodedPackage);
 
         // Second validation with same package should fail
-        vm.expectRevert(PureFiVerifier.AlreadyUsedPayloadError.selector);
+        vm.expectRevert(IPureFiVerifier.AlreadyUsedPayloadError.selector);
         verifier.validatePayload(encodedPackage);
     }
 
@@ -230,7 +230,7 @@ contract PureFiVerifierTest is Test {
         bytes memory encodedPackage = createValidPayload(1, 0, address(0), randomUser);
 
         // Try to validate from a different address
-        vm.expectRevert(PureFiVerifier.InvalidContractCallerError.selector);
+        vm.expectRevert(IPureFiVerifier.InvalidContractCallerError.selector);
         verifier.validatePayload(encodedPackage);
     }
 
@@ -298,7 +298,7 @@ contract PureFiVerifierTest is Test {
     /**
      * @dev Test the version function returns the correct value
      */
-    function testVersion() public {
+    function testVersion() public view {
         assertEq(verifier.version(), 5000000);
     }
 
@@ -323,7 +323,7 @@ contract PureFiVerifierTest is Test {
     /**
      * @dev Test that getPackage extracts the correct package data from a full PureFi payload
      */
-    function testGetPackage() public {
+    function testGetPackage() public view {
         // Create a valid payload with package type 2
         bytes memory encodedPackage = createValidPayload(2, 0);
         bytes memory expectedPackage = abi.encode(testPackage.getTestPackageType2());
@@ -340,7 +340,7 @@ contract PureFiVerifierTest is Test {
     /**
      * @dev Test that getTimestamp extracts the correct timestamp from a full PureFi payload
      */
-    function testGetTimestamp() public {
+    function testGetTimestamp() public view {
         // Create a valid payload with a specific timestamp
         uint64 expectedTimestamp = uint64(block.timestamp);
         bytes memory encodedPackage = createValidPayload(2, expectedTimestamp);
@@ -355,7 +355,7 @@ contract PureFiVerifierTest is Test {
     /**
      * @dev Test that getSignature extracts the correct signature from a full PureFi payload
      */
-    function testGetSignature() public {
+    function testGetSignature() public view {
         // Create a valid payload with package type 2
         uint64 timestamp = uint64(block.timestamp);
         bytes memory package = abi.encode(testPackage.getTestPackageType2());
@@ -379,7 +379,7 @@ contract PureFiVerifierTest is Test {
     /**
      * @dev Test that decodePureFiData extracts all components correctly from a full PureFi payload
      */
-    function testDecodePureFiData() public {
+    function testDecodePureFiData() public view {
         // Create a valid payload with package type 2
         uint64 expectedTimestamp = uint64(block.timestamp);
         bytes memory package = abi.encode(testPackage.getTestPackageType2());
@@ -390,7 +390,7 @@ contract PureFiVerifierTest is Test {
 
         // Extract components using decodePureFiData through helperFunctions
         (uint64 extractedTimestamp, bytes memory extractedSignature, bytes memory extractedPackage) =
-            helperFunctions.workaround_decodePureFiData(encodedPackage);
+                            helperFunctions.workaround_decodePureFiData(encodedPackage);
 
         // Verify all extracted components match expected values
         assertEq(extractedTimestamp, expectedTimestamp, "Timestamp does not match expected value");
