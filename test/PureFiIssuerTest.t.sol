@@ -25,11 +25,11 @@ contract PureFiIssuerRegistryTest is Test {
         vm.stopPrank();
     }
 
-    function testVersion() public {
-        assertEq(registry.version(), 2000000);
+    function testVersion() public view {
+        assertEq(registry.version(), 2001000);
     }
 
-    function testInitializeSetsAdminRole() public {
+    function testInitializeSetsAdminRole() public view {
         assertTrue(registry.hasRole(registry.DEFAULT_ADMIN_ROLE(), admin));
     }
 
