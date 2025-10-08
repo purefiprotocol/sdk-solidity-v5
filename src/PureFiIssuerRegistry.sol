@@ -12,7 +12,7 @@ contract PureFiIssuerRegistry is AccessControlUpgradeable {
 
     function version() public pure returns (uint32) {
         // 000.000.000 - Major.minor.internal
-        return 2000000;
+        return 2001000;
     }
 
     function initialize(address _admin) external initializer {
@@ -31,7 +31,7 @@ contract PureFiIssuerRegistry is AccessControlUpgradeable {
     }
 
     function setVerifier(address _verifier) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        verifier = PureFiVerifier(_verifier);
+        verifier = PureFiVerifier(payable(_verifier));
         emit VerifierSettle(_verifier);
     }
 }
