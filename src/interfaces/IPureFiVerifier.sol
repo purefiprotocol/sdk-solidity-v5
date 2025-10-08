@@ -8,6 +8,17 @@ struct PureFiData {
 }
 
 interface IPureFiVerifier {
+
+    event PureFiPackageProcessed(address indexed caller, uint256 session);
+    event PureFiStorageClear(address caller, uint256 sessionId);
+
+    error PureFiDataExpiredError();
+    error TooShortPayloadError();
+    error AlreadyUsedPayloadError();
+    error InvalidContractCallerError();
+    error PaidPayloadNotAllowed();
+    error VerificationPaymentFailed();
+
     /// @dev Validates a given payload and returns the parsed package data.
     /// @param payload The payload to validate.
     function validatePayload(bytes calldata payload) external;
