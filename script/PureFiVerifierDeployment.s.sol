@@ -43,6 +43,6 @@ contract PureFiVerifierDeployment is Script {
             abi.encodeWithSelector(PureFiVerifier(implementation).initialize.selector, registry)
         );
 
-        verifierProxyContract = PureFiVerifier(address(proxy));
+        verifierProxyContract = PureFiVerifier(payable(address(proxy)));
     }
 }
