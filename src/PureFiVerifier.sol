@@ -6,6 +6,7 @@ import "./libraries/CustomRevert.sol";
 import {PureFiDataLibrary} from "./libraries/PureFiDataLibrary.sol";
 import {AccessControlUpgradeable} from "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
+import "@openzeppelin/contracts/interfaces/IERC20.sol";
 import "@openzeppelin/contracts-upgradeable/utils/ReentrancyGuardTransientUpgradeable.sol";
 
 contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, ReentrancyGuardTransientUpgradeable {
@@ -16,13 +17,9 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
     mapping(uint256 => uint256) public requestsProcessed;
     uint256 public graceTime;
 
-    event PureFiPackageProcessed(address indexed caller, uint256 session);
-    event PureFiStorageClear(address caller, uint256 sessionId);
+    receive() external payable {
 
-    error PureFiDataExpiredError();
-    error TooShortPayloadError();
-    error AlreadyUsedPayloadError();
-    error InvalidContractCallerError();
+    }
 
     function initialize(address issuerRegistry) external initializer {
         // @notice 10 min * 60 seconds = 600 seconds
@@ -54,6 +51,29 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
     ///
     /// @param _payload The payload to validate.
     function validatePayload(bytes calldata _payload) external nonReentrant {
+        (address token, uint256 amount) = (_payload.getPackage()).getPaymentData();
+        if (token != address(0) || amount != 0) {
+            PaidPayloadNotAllowed.selector.revertWith();
+        }
+
+        _validatePayload(_payload);
+    }
+
+    function paidValidatePayload(bytes calldata _payload) external payable nonReentrant {
+        (address token, uint256 amount) = (_payload.getPackage()).getPaymentData();
+
+        if (amount != 0) {
+            if (token != address(0)) {
+                IERC20(token).transferFrom(_msgSender(), address(this), amount);
+            } else {
+                (bool success, ) = payable(address(this)).call{value: msg.value}("");
+
+                if (!success) {
+                    VerificationPaymentFailed.selector.revertWith();
+                }
+            }
+        }
+
         _validatePayload(_payload);
     }
 
@@ -62,7 +82,7 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
     /// @return The version number in the format `Major.minor.internal`.
     function version() public pure returns (uint32) {
         // 000.000.000 - Major.minor.internal
-        return 5000000;
+        return 5012000;
     }
 
     /// @dev Validates a payload and returns the parsed package data.
@@ -74,36 +94,30 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         if (_payload.length <= (8 + 65 + 1 + 32)) {
             TooShortPayloadError.selector.revertWith();
         }
-        PureFiData calldata pureFiData;
+        (uint64 timestamp, bytes calldata signature, bytes calldata package) = _payload.decodePureFiData();
 
-        assembly ("memory-safe") {
-            pureFiData := _payload.offset
-        }
-
-        (address recovered,,) = ECDSA.tryRecover(
-            keccak256(abi.encodePacked(pureFiData.timestamp, pureFiData.package)), pureFiData.signature
-        );
+        (address recovered,,) = ECDSA.tryRecover(keccak256(abi.encodePacked(timestamp, package)), signature);
         _checkRole(ISSUER_ROLE, recovered);
 
-        if (block.timestamp > pureFiData.timestamp + graceTime) {
+        if (block.timestamp > timestamp + graceTime) {
             PureFiDataExpiredError.selector.revertWith();
         }
 
-        if (requestsProcessed[pureFiData.package.getSession()] != 0) {
+        if (requestsProcessed[package.getSession()] != 0) {
             AlreadyUsedPayloadError.selector.revertWith();
         }
 
         if (
-            pureFiData.package.getTo() != msg.sender && pureFiData.package.getPackageType() != 2
-                && pureFiData.package.getPackageType() != 3 && pureFiData.package.getFrom() != _msgSender()
+            package.getTo() != msg.sender && package.getPackageType() != 2 && package.getPackageType() != 3
+            && package.getFrom() != _msgSender()
         ) {
             InvalidContractCallerError.selector.revertWith();
         }
 
         // @notice store requestID to avoid replay
-        requestsProcessed[pureFiData.package.getSession()] = block.timestamp;
-        emit PureFiPackageProcessed(_msgSender(), pureFiData.package.getSession());
+        requestsProcessed[package.getSession()] = block.timestamp;
+        emit PureFiPackageProcessed(_msgSender(), package.getSession());
 
-        return pureFiData.package;
+        return package;
     }
 }
