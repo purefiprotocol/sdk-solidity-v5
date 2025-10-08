@@ -206,8 +206,6 @@ contract CustomRevertTest is Test {
      */
     function testInt24SignExtension() public {
         int24 negativeValue = -123;
-        int256 expandedNegative = int256(negativeValue);
-
         // Check that sign extension works correctly
         vm.expectRevert(abi.encodeWithSelector(ErrorWithInt24.selector, negativeValue));
         ErrorWithInt24.selector.revertWith(negativeValue);
