@@ -479,7 +479,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectPaymentDataType64() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType64()));
+                            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType64()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.PAYMENT_DATA()
@@ -488,7 +488,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectPaymentDataType96() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType96()));
+                            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType96()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.PAYMENT_DATA()
@@ -497,7 +497,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectPaymentDataType112() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType112()));
+                            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType112()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.PAYMENT_DATA()
@@ -506,7 +506,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectPaymentDataType192() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType192()));
+                            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType192()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.PAYMENT_DATA()
@@ -515,7 +515,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectPaymentDataType224() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType224()));
+                            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType224()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.PAYMENT_DATA()
@@ -524,7 +524,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectPaymentDataType240() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType240()));
+                            helperFunctions.workaround_paymentData(abi.encode(testPackage.getTestPackageType240()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.PAYMENT_DATA()
@@ -605,7 +605,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken0DataType32() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType32()));
+                            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType32()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_0()
@@ -614,7 +614,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken0DataType48() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType48()));
+                            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType48()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_0()
@@ -623,7 +623,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken0DataType96() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType96()));
+                            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType96()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_0()
@@ -632,7 +632,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken0DataType112() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType112()));
+                            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType112()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_0()
@@ -641,7 +641,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken0DataType160() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType160()));
+                            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType160()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_0()
@@ -650,7 +650,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken0DataType176() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType176()));
+                            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType176()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_0()
@@ -659,7 +659,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken0DataType224() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType224()));
+                            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType224()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_0()
@@ -668,7 +668,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken0DataType240() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType240()));
+                            helperFunctions.workaround_tokenData0(abi.encode(testPackage.getTestPackageType240()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_0()
@@ -678,7 +678,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken1DataType48() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData1(abi.encode(testPackage.getTestPackageType48()));
+                            helperFunctions.workaround_tokenData1(abi.encode(testPackage.getTestPackageType48()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_1()
@@ -687,7 +687,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken1DataType112() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData1(abi.encode(testPackage.getTestPackageType112()));
+                            helperFunctions.workaround_tokenData1(abi.encode(testPackage.getTestPackageType112()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_1()
@@ -696,7 +696,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken1DataType176() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData1(abi.encode(testPackage.getTestPackageType176()));
+                            helperFunctions.workaround_tokenData1(abi.encode(testPackage.getTestPackageType176()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_1()
@@ -705,7 +705,7 @@ contract PackageValidatorTest is Test {
 
     function test_ShouldReturnCorrectToken1DataType240() public view {
         (address token, uint256 amount) =
-            helperFunctions.workaround_tokenData1(abi.encode(testPackage.getTestPackageType240()));
+                            helperFunctions.workaround_tokenData1(abi.encode(testPackage.getTestPackageType240()));
         assertEq(
             helperFunctions.workaround_encodeTokenData(token, testPackage.DECIMALS(), amount),
             testPackage.TOKEN_DATA_1()
@@ -779,12 +779,12 @@ contract PackageValidatorTest is Test {
     function test_ShouldRevertToken0Type32() public {
         bytes memory data = abi.encode(testPackage.getTestPackageType32());
         vm.expectRevert(PureFiDataLibrary.ExpectedSecondPackageTypeError.selector);
-        address token = helperFunctions.workaround_token0(data);
+        helperFunctions.workaround_token0(data);
     }
 
     function test_ShouldRevertToken0AmountType32() public {
         bytes memory data = abi.encode(testPackage.getTestPackageType32());
         vm.expectRevert(PureFiDataLibrary.ExpectedSecondPackageTypeError.selector);
-        uint256 amount = helperFunctions.workaround_token0Amount(data);
+        helperFunctions.workaround_token0Amount(data);
     }
 }
