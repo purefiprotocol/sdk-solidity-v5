@@ -33,7 +33,7 @@
     "ERC20"
   ],
   "author": "PureFi",
-  "license": "MIT",
+  "license": "GPL-3.0-only",
   "bugs": {
     "url": "https://github.com/purefiprotocol/sdk-solidity-v5/issues"
   },
