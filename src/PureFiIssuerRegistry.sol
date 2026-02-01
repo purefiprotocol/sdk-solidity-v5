@@ -34,4 +34,12 @@ contract PureFiIssuerRegistry is AccessControlUpgradeable {
         verifier = PureFiVerifier(payable(_verifier));
         emit VerifierSettle(_verifier);
     }
+
+    function verifierGrantRole(address account, bytes32 role) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        verifier.grantRole(role, account);
+    }
+
+    function verifierRevokeRole(address account, bytes32 role) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        verifier.revokeRole(role, account);
+    }
 }
