@@ -14,6 +14,8 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
     using PureFiDataLibrary for bytes;
 
     bytes32 public constant ISSUER_ROLE = keccak256("ISSUER_ROLE");
+    bytes32 public constant FEE_COLLECTOR_ROLE = keccak256("FEE_COLLECTOR_ROLE");
+
     mapping(uint256 => uint256) public requestsProcessed;
     uint256 public graceTime;
 
@@ -119,5 +121,11 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         emit PureFiPackageProcessed(_msgSender(), package.getSession());
 
         return package;
+    }
+
+    function withdraw(address account, uint256 amount) external {
+        _checkRole(FEE_COLLECTOR_ROLE, account);
+        payable(account).call{value: amount}("");
+        emit Withdrawn(account, amount);
     }
 }
