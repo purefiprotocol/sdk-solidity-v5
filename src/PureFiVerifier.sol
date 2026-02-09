@@ -123,9 +123,15 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         return package;
     }
 
-    function withdraw(address account, uint256 amount) external {
+    function withdraw(address account, uint256 amount) external nonReentrant {
+        _checkRole(FEE_COLLECTOR_ROLE, _msgSender());
         _checkRole(FEE_COLLECTOR_ROLE, account);
-        payable(account).call{value: amount}("");
+        require(amount > 0, 'nothing to withdraw');
+        uint256 balance = address(this).balance;
+        require(balance >= amount, 'insufficient balance');
+
+        (bool success, ) = payable(account).call{value: amount}("");
+        require(success, "withdraw failed");
         emit Withdrawn(account, amount);
     }
 }
