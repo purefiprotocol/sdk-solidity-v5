@@ -24,7 +24,6 @@ interface IPureFiVerifier {
     /// @param payload The payload to validate.
     function validatePayload(bytes calldata payload) external;
     function withdraw(address account, uint256 amount) external;
-    function paidValidatePayload(bytes calldata _payload) external;
-    function validatePayload(bytes calldata _payload) external;
+    function paidValidatePayload(bytes calldata _payload) external payable;
     function clearStorage(uint256[] memory _sessions) external;
 }
