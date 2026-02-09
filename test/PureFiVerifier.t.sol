@@ -29,6 +29,7 @@ contract PureFiVerifierTest is Test {
     // Events to test
     event PureFiPackageProcessed(address indexed caller, uint256 session);
     event PureFiStorageClear(address caller, uint256 sessionId);
+    event Withdrawn(address feeCollector, uint256 amount);
 
     function setUp() public {
         // Create test accounts
@@ -397,4 +398,194 @@ contract PureFiVerifierTest is Test {
         assertEq(keccak256(extractedSignature), keccak256(expectedSignature), "Signature does not match expected value");
         assertEq(keccak256(extractedPackage), keccak256(package), "Package does not match expected value");
     }
+
+    /**
+     * @dev Test successful withdrawal when fee collector withdraws all funds to itself
+     */
+    function testWithdrawSuccessCollectorWithdrawsAll() public {
+        // Setup: Grant FEE_COLLECTOR_ROLE to a test account
+        address feeCollector = makeAddr("feeCollector");
+        vm.startPrank(issuerRegistry);
+        verifier.grantRole(verifier.FEE_COLLECTOR_ROLE(), feeCollector);
+        vm.stopPrank();
+
+        // Send ETH to contract
+        uint256 withdrawAmount = 1 ether;
+        uint256 initialContractBalance = withdrawAmount;
+        vm.deal(address(verifier), initialContractBalance);
+
+        // Record initial balances
+        uint256 initialCollectorBalance = feeCollector.balance;
+
+        // Test withdrawal
+        vm.startPrank(feeCollector);
+        vm.expectEmit(true, true, false, true);
+        emit Withdrawn(feeCollector, withdrawAmount);
+        verifier.withdraw(feeCollector, withdrawAmount);
+        vm.stopPrank();
+
+        // Verify balances
+        assertEq(feeCollector.balance, initialCollectorBalance + withdrawAmount);
+        assertEq(address(verifier).balance, 0);
+    }
+
+    /**
+     * @dev Test successful withdrawal when fee collector withdraws partial funds to itself
+     */
+    function testWithdrawSuccessCollectorWithdrawsPartial() public {
+        // Setup: Grant FEE_COLLECTOR_ROLE to a test account
+        address feeCollector = makeAddr("feeCollector");
+        vm.startPrank(issuerRegistry);
+        verifier.grantRole(verifier.FEE_COLLECTOR_ROLE(), feeCollector);
+        vm.stopPrank();
+
+        // Send more ETH to contract than we'll withdraw
+        uint256 contractBalance = 2 ether;
+        uint256 withdrawAmount = 1 ether;
+        vm.deal(address(verifier), contractBalance);
+
+        // Record initial balances
+        uint256 initialCollectorBalance = feeCollector.balance;
+
+        // Test partial withdrawal
+        vm.startPrank(feeCollector);
+        vm.expectEmit(true, true, false, true);
+        emit Withdrawn(feeCollector, withdrawAmount);
+        verifier.withdraw(feeCollector, withdrawAmount);
+        vm.stopPrank();
+
+        // Verify balances
+        assertEq(feeCollector.balance, initialCollectorBalance + withdrawAmount);
+        assertEq(address(verifier).balance, contractBalance - withdrawAmount);
+    }
+
+    /**
+     * @dev Test successful withdrawal when fee collector withdraws to another fee collector
+     */
+    function testWithdrawSuccessCollectorWithdrawsToAnotherCollector() public {
+        // Setup: Grant FEE_COLLECTOR_ROLE to both caller and recipient
+        address feeCollector = makeAddr("feeCollector");
+        address anotherCollector = makeAddr("anotherCollector");
+        
+        vm.startPrank(issuerRegistry);
+        verifier.grantRole(verifier.FEE_COLLECTOR_ROLE(), feeCollector);
+        verifier.grantRole(verifier.FEE_COLLECTOR_ROLE(), anotherCollector);
+        vm.stopPrank();
+
+        // Send ETH to contract
+        uint256 withdrawAmount = 1 ether;
+        vm.deal(address(verifier), withdrawAmount);
+
+        // Record initial balances
+        uint256 initialAnotherCollectorBalance = anotherCollector.balance;
+        uint256 initialCollectorBalance = feeCollector.balance;
+
+        // Test withdrawal to another collector
+        vm.startPrank(feeCollector);
+        vm.expectEmit(true, true, false, true);
+        emit Withdrawn(anotherCollector, withdrawAmount);
+        verifier.withdraw(anotherCollector, withdrawAmount);
+        vm.stopPrank();
+
+        // Verify recipient received funds, sender balance unchanged
+        assertEq(anotherCollector.balance, initialAnotherCollectorBalance + withdrawAmount);
+        assertEq(feeCollector.balance, initialCollectorBalance);
+        assertEq(address(verifier).balance, 0);
+    }
+
+    /**
+     * @dev Test revert case when withdrawer doesn't have fee collector role
+     */
+    function testWithdrawRevertWithdrawerNoRole() public {
+        // Setup: Don't grant FEE_COLLECTOR_ROLE to this account
+        address nonCollector = makeAddr("nonCollector");
+        
+        // Send ETH to contract
+        uint256 withdrawAmount = 1 ether;
+        vm.deal(address(verifier), withdrawAmount);
+
+        // Try to withdraw without role
+        vm.startPrank(nonCollector);
+        vm.expectRevert();
+        verifier.withdraw(nonCollector, withdrawAmount);
+        vm.stopPrank();
+
+        // Verify no funds were transferred
+        assertEq(address(verifier).balance, withdrawAmount);
+    }
+
+    /**
+     * @dev Test revert case when receiving account doesn't have fee collector role
+     */
+    function testWithdrawRevertReceiverNoRole() public {
+        // Setup: Grant FEE_COLLECTOR_ROLE only to caller, not recipient
+        address feeCollector = makeAddr("feeCollector");
+        address nonCollector = makeAddr("nonCollector");
+        
+        vm.startPrank(issuerRegistry);
+        verifier.grantRole(verifier.FEE_COLLECTOR_ROLE(), feeCollector);
+        vm.stopPrank();
+
+        // Send ETH to contract
+        uint256 withdrawAmount = 1 ether;
+        vm.deal(address(verifier), withdrawAmount);
+
+        // Try to withdraw to account without FEE_COLLECTOR_ROLE
+        vm.startPrank(feeCollector);
+        vm.expectRevert();
+        verifier.withdraw(nonCollector, withdrawAmount);
+        vm.stopPrank();
+
+        // Verify no funds were transferred
+        assertEq(address(verifier).balance, withdrawAmount);
+    }
+
+    /**
+     * @dev Test revert case when withdraw amount is zero
+     */
+    function testWithdrawRevertAmountZero() public {
+        // Setup: Grant FEE_COLLECTOR_ROLE
+        address feeCollector = makeAddr("feeCollector");
+        vm.startPrank(issuerRegistry);
+        verifier.grantRole(verifier.FEE_COLLECTOR_ROLE(), feeCollector);
+        vm.stopPrank();
+
+        // Send some ETH to contract
+        vm.deal(address(verifier), 1 ether);
+
+        // Try to withdraw zero amount
+        vm.startPrank(feeCollector);
+        vm.expectRevert("nothing to withdraw");
+        verifier.withdraw(feeCollector, 0);
+        vm.stopPrank();
+
+        // Verify nothing changed
+        assertEq(address(verifier).balance, 1 ether);
+    }
+
+    /**
+     * @dev Test revert case when withdraw amount exceeds contracts balance
+     */
+    function testWithdrawRevertAmountExceedsBalance() public {
+        // Setup: Grant FEE_COLLECTOR_ROLE
+        address feeCollector = makeAddr("feeCollector");
+        vm.startPrank(issuerRegistry);
+        verifier.grantRole(verifier.FEE_COLLECTOR_ROLE(), feeCollector);
+        vm.stopPrank();
+
+        // Contract has less balance than withdrawal amount
+        uint256 contractBalance = 0.5 ether;
+        uint256 withdrawAmount = 1 ether;
+        vm.deal(address(verifier), contractBalance);
+
+        // Try to withdraw more than contract balance
+        vm.startPrank(feeCollector);
+        vm.expectRevert("insufficient balance");
+        verifier.withdraw(feeCollector, withdrawAmount);
+        vm.stopPrank();
+
+        // Verify no funds were transferred
+        assertEq(address(verifier).balance, contractBalance);
+    }
+
 }
