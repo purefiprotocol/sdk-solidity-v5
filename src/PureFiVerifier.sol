@@ -84,7 +84,7 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
     /// @return The version number in the format `Major.minor.internal`.
     function version() public pure returns (uint32) {
         // 000.000.000 - Major.minor.internal
-        return 5012000;
+        return 5014000;
     }
 
     /// @dev Validates a payload and returns the parsed package data.
@@ -123,15 +123,9 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
         return package;
     }
 
-    function withdraw(address account, uint256 amount) external nonReentrant {
-        _checkRole(FEE_COLLECTOR_ROLE, _msgSender());
+    function withdraw(address account, uint256 amount) external {
         _checkRole(FEE_COLLECTOR_ROLE, account);
-        require(amount > 0, 'nothing to withdraw');
-        uint256 balance = address(this).balance;
-        require(balance >= amount, 'insufficient balance');
-
-        (bool success, ) = payable(account).call{value: amount}("");
-        require(success, "withdraw failed");
+        payable(account).call{value: amount}("");
         emit Withdrawn(account, amount);
     }
 }
