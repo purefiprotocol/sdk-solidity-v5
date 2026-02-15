@@ -3,9 +3,9 @@
     "rev": "6abf66980050ab03a35b52bdab814f55001d6929"
   },
   "lib/openzeppelin-contracts": {
-    "rev": "d183d9b07a6cb0772ff52aa4e3e40165e99d6359"
+    "rev": "c64a1edb67b6e3f4a15cca8909c9482ad33a02b0"
   },
   "lib/openzeppelin-contracts-upgradeable": {
-    "rev": "7c8e90046cdf3447971c201c1940d489fa2064bb"
+    "rev": "e725abddf1e01cf05ace496e950fc8e243cc7cab"
   }
 }
