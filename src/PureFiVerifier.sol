@@ -136,7 +136,7 @@ contract PureFiVerifier is AccessControlUpgradeable, IPureFiVerifier, Reentrancy
                 IERC20(token).transferFrom(_msgSender(), address(this), amount);
             } else {
                 // If paying with Native token, verify sufficient msg.value was sent
-                if (msg.value < amount) {
+                if (msg.value != amount) {
                     VerificationPaymentFailed.selector.revertWith();
                 }
             }
