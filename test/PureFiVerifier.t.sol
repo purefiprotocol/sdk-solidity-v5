@@ -367,7 +367,7 @@ contract PureFiVerifierTest is Test {
 
         vm.deal(randomUser, 100 ether); // Provide test user with ETH
         vm.broadcast(randomUserPk);
-        verifier.paidValidatePayload{value: 1 ether}(encodedPackage); // Send plenty of ETH to cover the amount
+        verifier.paidValidatePayload{value: amount}(encodedPackage); // Send plenty of ETH to cover the amount
     }
 
     /**
