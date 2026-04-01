@@ -130,6 +130,6 @@ contract WorkaroundFunctions {
         returns (uint64, bytes memory, bytes memory)
     {
         (uint64 timestamp, bytes calldata signature, bytes calldata package) = PureFiDataLibrary.decodePureFiData(data);
-        return (timestamp, signature, package); // Преобразуем calldata в memory для тестов
+        return (timestamp, signature, package);
     }
 }

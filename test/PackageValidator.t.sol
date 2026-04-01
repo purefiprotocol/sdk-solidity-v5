@@ -779,12 +779,12 @@ contract PackageValidatorTest is Test {
     function test_ShouldRevertToken0Type32() public {
         bytes memory data = abi.encode(testPackage.getTestPackageType32());
         vm.expectRevert(PureFiDataLibrary.ExpectedSecondPackageTypeError.selector);
-        address token = helperFunctions.workaround_token0(data);
+        helperFunctions.workaround_token0(data);
     }
 
     function test_ShouldRevertToken0AmountType32() public {
         bytes memory data = abi.encode(testPackage.getTestPackageType32());
         vm.expectRevert(PureFiDataLibrary.ExpectedSecondPackageTypeError.selector);
-        uint256 amount = helperFunctions.workaround_token0Amount(data);
+        helperFunctions.workaround_token0Amount(data);
     }
 }
