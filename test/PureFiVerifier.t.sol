@@ -294,7 +294,7 @@ contract PureFiVerifierTest is Test {
      * @dev Verifies that the version getter returns the correctly hardcoded version integer.
      */
     function testVersion() public view {
-        assertEq(verifier.version(), 5014000);
+        assertEq(verifier.version(), 5020000);
     }
 
     /**

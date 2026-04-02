@@ -53,7 +53,7 @@ contract PureFiIssuerRegistryTest is Test {
      * @dev Ensures the version() function returns the expected hardcoded value.
      */
     function testVersion() public view {
-        assertEq(registry.version(), 5014000, "Version should match 5014000");
+        assertEq(registry.version(), 5020000, "Version should match 5020000");
     }
 
     /**
