@@ -56,7 +56,7 @@ contract PureFiIssuerRegistry is AccessControlUpgradeable {
      */
     function version() public pure returns (uint32) {
         // 000.000.000 - Major.minor.internal
-        return 5014000;
+        return 5020000;
     }
 
     /**
